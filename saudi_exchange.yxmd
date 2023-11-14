@@ -1,0 +1,481 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2023.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="2">
+      <GuiSettings Plugin="AlteryxConnectorGui.Download.Download">
+        <Position x="162" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <URLField>url</URLField>
+          <OutputMode>String</OutputMode>
+          <CodePage>65001</CodePage>
+          <EncodeURLs value="True" />
+          <Headers>
+            <NameValues />
+            <Fields orderChanged="False">
+              <Field name="url" selected="False" />
+              <Field name="*Unknown" selected="False" />
+            </Fields>
+          </Headers>
+          <Payload>
+            <HTTPAction>GET</HTTPAction>
+            <QueryStringBodyMode>Compose</QueryStringBodyMode>
+            <ComposeNameValues />
+            <ComposeFields orderChanged="False">
+              <Field name="url" selected="False" />
+              <Field name="*Unknown" selected="False" />
+            </ComposeFields>
+          </Payload>
+          <numConnections>1</numConnections>
+          <Timeout>600</Timeout>
+          <EnableRPM value="False" />
+          <DcmAdvancedAuth value="False" />
+          <Password />
+          <UserName />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <AnnotationText>request data</AnnotationText>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxConnectorEngine.dll" EngineDllEntryPoint="AlteryxDownload" />
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="738" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\Hamad\AppData\Local\Temp\Engine_12308_4efeb41100ca33469fc7c2f4250b7558_\Engine_12308_e7996d9194d32e44a5835b825947434a~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.JSONParse.JSONParse">
+        <Position x="258" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <JSON_Field>DownloadData</JSON_Field>
+          <IncludeInOutput value="False" />
+          <SingleField value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <AnnotationText>parse downloaded data</AnnotationText>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJSONParse" />
+    </Node>
+    <Node ToolID="7">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="354" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="url" selected="False" />
+            <SelectField field="DownloadHeaders" selected="False" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <AnnotationText>dis-select extra columns</AnnotationText>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
+        <Position x="450" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Field>JSON_Name</Field>
+          <ErrorHandling>Last</ErrorHandling>
+          <RootName>
+          </RootName>
+          <Delimeters value="." />
+          <NumFields value="3" />
+          <Flags value="0" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <AnnotationText>separate fields</AnnotationText>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextToColumns" />
+    </Node>
+    <Node ToolID="9">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+        <Position x="546" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <GroupFields>
+            <Field field="2" />
+          </GroupFields>
+          <HeaderField field="3" />
+          <DataField field="JSON_ValueString" />
+          <Methods>
+            <Method method="First" />
+            <Separator>,</Separator>
+            <FieldSize value="2048" />
+          </Methods>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <AnnotationText>convert rows to headers</AnnotationText>
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field description="TextToColumns: Parsed from JSON_Name" name="2" size="1073741823" source="CrossTab:Group:First:" type="V_WString" />
+            <Field name="acrynomName" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="askPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="askPriceModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="askQuantity" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="askQuantityModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="bidPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="bidPriceModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="bidQuantity" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="bidQuantityModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="changeValue" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyFullName" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyName" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyRef" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyStatus" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyStatusDescription" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyStatusFlag" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companySymbol" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="companyUrl" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="equityRightSymbol" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="high52WeekDate" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="high52WeekPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="highPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="highPriceModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="indexName" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="indexNetChange" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="indexPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lastTradePrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lastTradePriceModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lastTradeQuantity" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lastTradeQuantityModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lastUpdatetime" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="low52WeekDate" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="low52WeekPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lowPrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="lowPriceModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="marketCap" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="netChange" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="netChangeClass" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="netChangeModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="nuOfTrades" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="PBR" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="PER" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="percentChangeClass" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="precentChange" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="precentChangeModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="previousClosePrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="previousOpen" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="sectorName" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="sectorRef" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="segmentationDescription" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="segmentationFlag" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="sortOrder" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="todayClosePrice" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="todayOpen" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="todayOpenModified" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="transactionDate" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="turnover" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="updateTime" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="volumeTraded" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="watchlist" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="watchListId" size="1073741823" source="JSON_Parse" type="V_WString" />
+            <Field name="yield" size="1073741823" source="JSON_Parse" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+    </Node>
+    <Node ToolID="11">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AutoField.AutoField">
+        <Position x="642" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Fields>
+            <Field field="2" selected="True" />
+            <Field field="acrynomName" selected="True" />
+            <Field field="askPrice" selected="True" />
+            <Field field="askPriceModified" selected="True" />
+            <Field field="askQuantity" selected="True" />
+            <Field field="askQuantityModified" selected="True" />
+            <Field field="bidPrice" selected="True" />
+            <Field field="bidPriceModified" selected="True" />
+            <Field field="bidQuantity" selected="True" />
+            <Field field="bidQuantityModified" selected="True" />
+            <Field field="changeValue" selected="True" />
+            <Field field="companyFullName" selected="True" />
+            <Field field="companyName" selected="True" />
+            <Field field="companyRef" selected="True" />
+            <Field field="companyStatus" selected="True" />
+            <Field field="companyStatusDescription" selected="True" />
+            <Field field="companyStatusFlag" selected="True" />
+            <Field field="companySymbol" selected="True" />
+            <Field field="companyUrl" selected="True" />
+            <Field field="equityRightSymbol" selected="True" />
+            <Field field="high52WeekDate" selected="True" />
+            <Field field="high52WeekPrice" selected="True" />
+            <Field field="highPrice" selected="True" />
+            <Field field="highPriceModified" selected="True" />
+            <Field field="indexName" selected="True" />
+            <Field field="indexNetChange" selected="True" />
+            <Field field="indexPrice" selected="True" />
+            <Field field="lastTradePrice" selected="True" />
+            <Field field="lastTradePriceModified" selected="True" />
+            <Field field="lastTradeQuantity" selected="True" />
+            <Field field="lastTradeQuantityModified" selected="True" />
+            <Field field="lastUpdatetime" selected="True" />
+            <Field field="low52WeekDate" selected="True" />
+            <Field field="low52WeekPrice" selected="True" />
+            <Field field="lowPrice" selected="True" />
+            <Field field="lowPriceModified" selected="True" />
+            <Field field="marketCap" selected="True" />
+            <Field field="netChange" selected="True" />
+            <Field field="netChangeClass" selected="True" />
+            <Field field="netChangeModified" selected="True" />
+            <Field field="nuOfTrades" selected="True" />
+            <Field field="PBR" selected="True" />
+            <Field field="PER" selected="True" />
+            <Field field="percentChangeClass" selected="True" />
+            <Field field="precentChange" selected="True" />
+            <Field field="precentChangeModified" selected="True" />
+            <Field field="previousClosePrice" selected="True" />
+            <Field field="previousOpen" selected="True" />
+            <Field field="sectorName" selected="True" />
+            <Field field="sectorRef" selected="True" />
+            <Field field="segmentationDescription" selected="True" />
+            <Field field="segmentationFlag" selected="True" />
+            <Field field="sortOrder" selected="True" />
+            <Field field="todayClosePrice" selected="True" />
+            <Field field="todayOpen" selected="True" />
+            <Field field="todayOpenModified" selected="True" />
+            <Field field="transactionDate" selected="True" />
+            <Field field="turnover" selected="True" />
+            <Field field="updateTime" selected="True" />
+            <Field field="volumeTraded" selected="True" />
+            <Field field="watchlist" selected="True" />
+            <Field field="watchListId" selected="True" />
+            <Field field="yield" selected="True" />
+            <Field field="*Unknown" selected="True" />
+          </Fields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field description="TextToColumns: Parsed from JSON_Name" name="2" source="CrossTab:Group:First:" type="Byte" />
+            <Field name="acrynomName" size="23" source="JSON_Parse" type="V_WString" />
+            <Field name="askPrice" source="JSON_Parse" type="Double" />
+            <Field name="askPriceModified" source="JSON_Parse" type="Double" />
+            <Field name="askQuantity" source="JSON_Parse" type="Int32" />
+            <Field name="askQuantityModified" size="10" source="JSON_Parse" type="V_String" />
+            <Field name="bidPrice" source="JSON_Parse" type="Double" />
+            <Field name="bidPriceModified" source="JSON_Parse" type="Double" />
+            <Field name="bidQuantity" source="JSON_Parse" type="Int32" />
+            <Field name="bidQuantityModified" source="JSON_Parse" type="Bool" />
+            <Field name="changeValue" source="JSON_Parse" type="Double" />
+            <Field name="companyFullName" source="JSON_Parse" type="Bool" />
+            <Field name="companyName" size="52" source="JSON_Parse" type="V_WString" />
+            <Field name="companyRef" source="JSON_Parse" type="Int16" />
+            <Field name="companyStatus" source="JSON_Parse" type="Byte" />
+            <Field name="companyStatusDescription" source="JSON_Parse" type="Bool" />
+            <Field name="companyStatusFlag" source="JSON_Parse" type="Bool" />
+            <Field name="companySymbol" source="JSON_Parse" type="Int32" />
+            <Field name="companyUrl" size="1069" source="JSON_Parse" type="V_String" />
+            <Field name="equityRightSymbol" source="JSON_Parse" type="Bool" />
+            <Field name="high52WeekDate" source="JSON_Parse" type="Bool" />
+            <Field name="high52WeekPrice" source="JSON_Parse" type="Byte" />
+            <Field name="highPrice" source="JSON_Parse" type="Double" />
+            <Field name="highPriceModified" source="JSON_Parse" type="Double" />
+            <Field name="indexName" source="JSON_Parse" type="Bool" />
+            <Field name="indexNetChange" source="JSON_Parse" type="Bool" />
+            <Field name="indexPrice" source="JSON_Parse" type="Bool" />
+            <Field name="lastTradePrice" source="JSON_Parse" type="Double" />
+            <Field name="lastTradePriceModified" source="JSON_Parse" type="Double" />
+            <Field name="lastTradeQuantity" source="JSON_Parse" type="Int16" />
+            <Field name="lastTradeQuantityModified" source="JSON_Parse" type="Bool" />
+            <Field name="lastUpdatetime" size="23" source="JSON_Parse" type="String" />
+            <Field name="low52WeekDate" source="JSON_Parse" type="Bool" />
+            <Field name="low52WeekPrice" source="JSON_Parse" type="Byte" />
+            <Field name="lowPrice" source="JSON_Parse" type="Double" />
+            <Field name="lowPriceModified" source="JSON_Parse" type="Double" />
+            <Field name="marketCap" source="JSON_Parse" type="Byte" />
+            <Field name="netChange" source="JSON_Parse" type="Double" />
+            <Field name="netChangeClass" source="JSON_Parse" type="Bool" />
+            <Field name="netChangeModified" source="JSON_Parse" type="Double" />
+            <Field name="nuOfTrades" source="JSON_Parse" type="Int16" />
+            <Field name="PBR" source="JSON_Parse" type="Byte" />
+            <Field name="PER" source="JSON_Parse" type="Byte" />
+            <Field name="percentChangeClass" source="JSON_Parse" type="Bool" />
+            <Field name="precentChange" source="JSON_Parse" type="Double" />
+            <Field name="precentChangeModified" source="JSON_Parse" type="Double" />
+            <Field name="previousClosePrice" source="JSON_Parse" type="Double" />
+            <Field name="previousOpen" source="JSON_Parse" type="Byte" />
+            <Field name="sectorName" size="27" source="JSON_Parse" type="V_WString" />
+            <Field name="sectorRef" source="JSON_Parse" type="Byte" />
+            <Field name="segmentationDescription" source="JSON_Parse" type="Bool" />
+            <Field name="segmentationFlag" source="JSON_Parse" type="Bool" />
+            <Field name="sortOrder" source="JSON_Parse" type="Byte" />
+            <Field name="todayClosePrice" source="JSON_Parse" type="Double" />
+            <Field name="todayOpen" source="JSON_Parse" type="Double" />
+            <Field name="todayOpenModified" source="JSON_Parse" type="Double" />
+            <Field name="transactionDate" size="23" source="JSON_Parse" type="String" />
+            <Field name="turnover" source="JSON_Parse" type="Double" />
+            <Field name="updateTime" size="23" source="JSON_Parse" type="String" />
+            <Field name="volumeTraded" source="JSON_Parse" type="Int32" />
+            <Field name="watchlist" source="JSON_Parse" type="Byte" />
+            <Field name="watchListId" source="JSON_Parse" type="Byte" />
+            <Field name="yield" source="JSON_Parse" type="Byte" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxAutoField" />
+    </Node>
+    <Node ToolID="12">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
+        <Position x="54" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <NumRows value="1" />
+          <Fields>
+            <Field name="url" />
+          </Fields>
+          <Data>
+            <r>
+              <c>https://www.saudiexchange.sa/wps/portal/saudiexchange/ourmarkets/main-market-watch/!ut/p/z1/04_Sj9CPykssy0xPLMnMz0vMAfIjo8ziTR3NDIw8LAz8LVxcnA0C3bwtPLwM_I0MzMz1w1EVGAQHmAIVBPga-xgEGbgbmOlHEaPfAAdwNCCsPwpNia-7mUGgn2Ogv5G5qYFBsBG6AixOBCvA44aC3NAIg0xPRQASFoSL/p0/IZ7_IPG41I82KGASC06S67RB9A0080=CZ6_5A602H80O8DDC0QFK8HJ0O2067=NJgetMainNomucMarketDetails=/?sectorParameter=&amp;tableViewParameter=1&amp;iswatchListSelected=NO&amp;requestLocale=ar&amp;_=1699963973765</c>
+            </r>
+          </Data>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="5" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="7" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="7" Connection="Output" />
+      <Destination ToolID="8" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="8" Connection="Output" />
+      <Destination ToolID="9" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="9" Connection="Output" />
+      <Destination ToolID="11" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="11" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="12" Connection="Output" />
+      <Destination ToolID="2" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>saudi_exchange</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="6c94f0be-02d5-4632-8525-488efa486e74" />
+      <Telemetry>
+        <PreviousWorkflowId value="a8a686ab-1a95-4dd6-8c9a-4d0c2e608e28" />
+        <OriginWorkflowId value="a8a686ab-1a95-4dd6-8c9a-4d0c2e608e28" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
